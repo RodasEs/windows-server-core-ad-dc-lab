@@ -4,7 +4,7 @@ Questions below
 
 **WHEN USING:  
 
-```powershell**
+```**
 
 **Install-ADDSForest -DomainName "lab.local" -InstallDNS -Force**
 
@@ -15,7 +15,6 @@ QUESITON: *When running the cmdlet above, I read that one of the first things it
 
 (short) ANSWER: The database file is the heart of Active Directory and contains ***OBJECTS*** (All users, computers, and groups), ***ATTRIBUTES*** ( like names, email addresses, and phone numbers), SECURITY DATA (password hashes and Group Policy information), and Schema ( the "blueprint" that defines what those objects and attributes look like). 
 
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 QUESTION: *How does the script know what kinds of objects, classes, and attributes to define when creating our domain?*
 
