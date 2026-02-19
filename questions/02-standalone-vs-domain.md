@@ -16,16 +16,6 @@ Install-ADDSForest -DomainName "lab.local" -InstallDNS -Force
 
 ```
 
-&nbsp;OR
-
-```powershell
-
-Install-ADDSDomainController
-
-```
-
-
-
 1. The Active Directory database (NTDS.dit) is created
 2. SYSVOL is configured
 3. The server is configured to respond to domain authentication requests
