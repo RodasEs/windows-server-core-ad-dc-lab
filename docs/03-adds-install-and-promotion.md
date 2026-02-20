@@ -5,20 +5,20 @@ By switching users and escalating privileges locally, we gained the necessary pe
 Since no domain existed at this point, all administrative authority was validated at the local system level. 
 
 
-After logging in as a local admin, we proceeded to first install AD DS, which is a Windows Server role that is already included with the OS (adding the components).  The command that we prompted the command line was 
+After logging in as a local admin, we proceeded to first install AD DS, which is a Windows Server role that is already included with the OS (adding the components).  The powershell script that we prompted was 
 
 
-```
+```powershell
 Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
 ```
 
 
 
-I learned that this command copies AD DS binaries from the Windows Server installation and proceeds to install backround servers and management tools, hence the " -IncludeManagementTools " extension. Preparing the OS to become a Domain Controller. We have successfully applied AD to the disk but AD is not yet active and remains in the standalone state.
+I learned that this command copies AD DS binaries from the Windows Server installation and proceeds to install background servers and management tools, hence the " -IncludeManagementTools " extension. Preparing the OS to become a Domain Controller. We have successfully applied AD to the disk but AD is not yet active and remains in the standalone state.
 
-Which is why we need to next promote the server, initializing AD DS. We utilize the command:
+Which is why we need to next promote the server, initializing AD DS. We utilize the script:
 
-```
+```powershell
 Install-ADDSForest -DomainName "lab.local" -InstallDNS -Force
 
 
@@ -64,13 +64,13 @@ The Active Directory ADDForest cmdlet created:
 
 We verified the promotion was successful by utilizing the following commands:
 
-```
+```bat
 systeminfo
 ```
 
 
 
-```
+```bat
 nltest /dsgetdc:lab.local
 
 ```
