@@ -1,0 +1,3 @@
+What is the difference between DNS Client and DNS Server. 
+DNS Clieint is the thing that asks "What IP address belongs to addc01.lab.local?"
+DNS server is the thing that reicieves that quesiotion and snwerers it or resolves the domain name to the correct associated IP address.
