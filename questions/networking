@@ -1,3 +1,6 @@
 What is the difference between DNS Client and DNS Server. 
 DNS Clieint is the thing that asks "What IP address belongs to addc01.lab.local?"
 DNS server is the thing that reicieves that quesiotion and snwerers it or resolves the domain name to the correct associated IP address.
+FOR EXAMPLE: It means:
+
+“The DNS client on this computer should send its DNS queries to the DNS server located at 127.0.0.1.”
