@@ -1,48 +1,47 @@
 # DNS and Active Directory
 
-While configuring DNS for my Domain Controller, I had to ask myself:
+## Question
 
-> **Why does Active Directory need its own DNS server, and why does ADDC01 use the loopback address (`127.0.0.1`) instead of simply using a public DNS server like Google's `8.8.8.8`?**
+**Why does our Domain Controller use the loopback address (`127.0.0.1`) for DNS instead of simply using a public DNS server like Google's `8.8.8.8`?**
 
-To answer this, I first needed to understand the relationship between **Active Directory, DNS clients, DNS servers, and DNS-based service discovery**.
+## Answer
+
+When we created the `lab.local` domain, we installed Microsoft's **DNS Server role** on **ADDC01**. This gave ADDC01 the ability to provide DNS services for our Active Directory environment.
+
+This is important because **Active Directory depends on DNS for service discovery**. Domain members use DNS to locate Domain Controllers and services such as LDAP and Kerberos.
+
+Our current configuration is:
+
+- **Domain:** `lab.local`
+- **Domain Controller:** `ADDC01`
+- **ADDC01 IP Address:** `10.10.10.10`
+- **ADDC01 DNS Server Setting:** `127.0.0.1`
 
 ---
 
-## Why Does Active Directory Need DNS?
+## DNS Client vs. DNS Server
 
-Active Directory depends heavily on **DNS for service discovery**.
+Before understanding the loopback address, I first needed to understand the difference between a **DNS client** and a **DNS server**.
 
-Before a domain-joined computer can authenticate a user or access domain resources, it first needs to locate a Domain Controller and the services that Domain Controller provides.
+### DNS Client
 
-DNS helps answer questions such as:
+A DNS client **asks DNS questions**.
 
-- Where is a Domain Controller for `lab.local`?
-- What IP address belongs to `ADDC01.lab.local`?
-- Which server provides LDAP?
-- Which server provides Kerberos?
+For example:
+
+> "What IP address belongs to `ADDC01.lab.local`?"
+
+### DNS Server
+
+A DNS server **receives DNS queries and provides answers using its DNS records**.
 
 For example:
 
 ```text
-CLIENT01
-    │
-    │ "Where is a Domain Controller for lab.local?"
-    ▼
-DNS Server
-    │
-    │ "ADDC01.lab.local → 10.10.10.10"
-    ▼
-CLIENT01 contacts ADDC01
+DNS Client:
+"What IP address belongs to ADDC01.lab.local?"
 
-### How ADDC01 and CLIENT01 Reach the DNS Server
+              ↓
 
-When we created our domain, we installed Microsoft's **DNS Server role** on **ADDC01**, giving the server the ability to provide DNS services for our Active Directory environment.
-
-ADDC01's DNS client uses **`127.0.0.1`**, the IPv4 **loopback address**. This tells ADDC01 to send its DNS queries to the **DNS Server service running on itself**.
-
-> **`127.0.0.1` = "Send my DNS queries to the DNS Server running on this computer."**
-
-If another device, such as **CLIENT01**, needs DNS, it cannot use `127.0.0.1` because the loopback address always points back to the device using it. On CLIENT01, `127.0.0.1` would point back to CLIENT01—not ADDC01.
-
-Instead, CLIENT01 uses **`10.10.10.10`**, ADDC01's actual network IP address, to send DNS queries across the network to the DNS Server running on ADDC01.
-
+DNS Server:
+"ADDC01.lab.local = 10.10.10.10"
