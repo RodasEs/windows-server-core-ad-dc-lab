@@ -34,4 +34,15 @@ DNS Server
     ▼
 CLIENT01 contacts ADDC01
 
-When we created our domain, we installed Microsoft's DNS Server role on ADDC01, giving the server the ability to provide DNS services for our Active Directory environment. ADDC01's DNS client uses 127.0.0.1, the IPv4 loopback address, which tells it to send its DNS queries to the DNS Server service running on itself. If another device such as CLIENT01 needs DNS, it cannot use 127.0.0.1, because loopback would point CLIENT01 back to itself. Instead, CLIENT01 uses 10.10.10.10, ADDC01's actual IP address, to send DNS queries across the network to the DNS Server running on ADDC01.
+### How ADDC01 and CLIENT01 Reach the DNS Server
+
+When we created our domain, we installed Microsoft's **DNS Server role** on **ADDC01**, giving the server the ability to provide DNS services for our Active Directory environment.
+
+ADDC01's DNS client uses **`127.0.0.1`**, the IPv4 **loopback address**. This tells ADDC01 to send its DNS queries to the **DNS Server service running on itself**.
+
+> **`127.0.0.1` = "Send my DNS queries to the DNS Server running on this computer."**
+
+If another device, such as **CLIENT01**, needs DNS, it cannot use `127.0.0.1` because the loopback address always points back to the device using it. On CLIENT01, `127.0.0.1` would point back to CLIENT01—not ADDC01.
+
+Instead, CLIENT01 uses **`10.10.10.10`**, ADDC01's actual network IP address, to send DNS queries across the network to the DNS Server running on ADDC01.
+
