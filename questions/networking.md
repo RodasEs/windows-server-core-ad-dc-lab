@@ -1,38 +1,35 @@
-I had to ask myself: Why does our Domain Controller use the loopback address (127.0.0.1) for DNS instead of simply using a public DNS server like Google’s 8.8.8.8?
-vz
+# DNS and Active Directory
 
+While configuring DNS for my Domain Controller, I had to ask myself:
 
-What is the difference between DNS Client and DNS Server. 
-DNS Clieint is the thing that asks "What IP address belongs to addc01.lab.local?"
-DNS server is the thing that reicieves that quesiotion and snwerers it or resolves the domain name to the correct associated IP address.
-FOR EXAMPLE: It means:
+> **Why does Active Directory need its own DNS server, and why does ADDC01 use the loopback address (`127.0.0.1`) instead of simply using a public DNS server like Google's `8.8.8.8`?**
 
-“The DNS client on this computer should send its DNS queries to the DNS server located at 127.0.0.1.”
+To answer this, I first needed to understand the relationship between **Active Directory, DNS clients, DNS servers, and DNS-based service discovery**.
 
-Question:
-Why do we need to install and configure DNS when creating an Active Directory Domain Controller?
+---
 
-Answer:
-Active Directory depends on DNS for service discovery. Before a domain-joined computer can authenticate a user or access domain resources, it needs to find the Domain Controller and the services it provides.
+## Why Does Active Directory Need DNS?
 
-DNS answers questions such as:
+Active Directory depends heavily on **DNS for service discovery**.
 
-Where is a Domain Controller for lab.local?
-Which server provides LDAP?
-Which server provides Kerberos?
-What IP address belongs to ADDC01.lab.local?
+Before a domain-joined computer can authenticate a user or access domain resources, it first needs to locate a Domain Controller and the services that Domain Controller provides.
+
+DNS helps answer questions such as:
+
+- Where is a Domain Controller for `lab.local`?
+- What IP address belongs to `ADDC01.lab.local`?
+- Which server provides LDAP?
+- Which server provides Kerberos?
 
 For example:
 
+```text
 CLIENT01
-   │
-   │ "Where is a DC for lab.local?"
-   ▼
-DNS
-   │
-   │ "ADDC01.lab.local → 10.10.10.10"
-   ▼
+    │
+    │ "Where is a Domain Controller for lab.local?"
+    ▼
+DNS Server
+    │
+    │ "ADDC01.lab.local → 10.10.10.10"
+    ▼
 CLIENT01 contacts ADDC01
-
-Key idea: DNS helps a computer find the service. Active Directory then provides the directory/identity information, and protocols such as Kerberos handle authentication.
-
